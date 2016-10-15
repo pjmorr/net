@@ -49,7 +49,7 @@ commands:
     options:
       count:
         description: "Number of times to ping.  Defaults to 5"
-        type: integer
+        type: string
         required: false
 templates:
   dig:
