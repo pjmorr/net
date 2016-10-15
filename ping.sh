@@ -12,8 +12,8 @@ if [ "$COG_OPT_COUNT" == "" ] ; then
 fi
 
 if [ "$COG_OPT_COUNT" != "" ] ; then
-    arguments+=("-c")  
-    arguments+=("@${COG_OPT_COUNT}")
+    arguments+=("-c")
+    arguments+=("${COG_OPT_COUNT}")
 fi
 
 # Set template to use for rendering output
