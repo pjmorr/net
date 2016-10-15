@@ -3,11 +3,11 @@ cog_bundle_version: 4
 name: net
 description: "Simple network utilities"
 author: "Operable <support@operable.io>"
-homepage: "https://github.com/cogcmd/net"
-version: "0.2"
+homepage: "https://gitlab.ubermonitoring.com/cogbundles/net"
+version: "0.3.0"
 docker:
-  image: "cogcmd/net"
-  tag: "0.2"
+  image: "registry.ubermonitoring.com:4567/cogbundles/net"
+  tag: "0.3.0"
 commands:
   dig:
     executable: "/bundle/dig.sh"
@@ -36,8 +36,30 @@ commands:
         description: "Enable the 'trace' query option. Disabled by default"
         type: bool
         required: false
+  ping:
+    executable: "/bundle/ping.sh"
+    description: "PING utility"
+    long_description: |
+      Simple wrapper for the `ping` command line utility. Only a select
+      few options are exposed in this command; it is not intended to
+      be a complete "ping in chat" tool.
+    arguments: "<target>"
+    rules:
+      - "when command is net:ping allow"
+    options:
+      count:
+        description: "Number of times to ping.  Defaults to 5"
+        type: integer
+        required: false
 templates:
   dig:
+    body: |
+      ~each var=$results~
+      ```~each var=$item.body as=l~
+      ~$l~
+      ~end~```
+      ~end~
+  ping:
     body: |
       ~each var=$results~
       ```~each var=$item.body as=l~
