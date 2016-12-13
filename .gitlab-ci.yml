@@ -18,6 +18,7 @@ variables:
   AWS_DEFAULT_REGION: us-east-1
   S3_BUCKET: $S3_BUCKET
   S3_KEY: $S3_KEY
+  IMAGE: registry.ubermonitoring.com:4567/cogbundles/net
 cache:
   key: $CI_PROJECT_PATH
   paths:
@@ -71,7 +72,7 @@ Stable:
     RELEASE: "true"
   only:
   - tags@cogbundles/net
-  - /*-stable@cogbundles/net
+  - ^*-stable@cogbundles/net
   environment: staging
 pages:
   image: ruby:2.3

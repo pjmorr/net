@@ -1,6 +1,6 @@
 # Installing dependencies
 apt-get update >/dev/null
-apt-get install -y ruby ruby-dev python-pip dpkg-sig createrepo rpm locales jq sudo python ca-certificates >/dev/null
+apt-get install -y ruby ruby-dev python-pip dpkg-sig createrepo rpm locales jq sudo python python-dev libxslt-devel libxml2-devel ca-certificates >/dev/null
 
 # Set default locale for the environment
 echo "en_US UTF-8" > /etc/locale.gen
