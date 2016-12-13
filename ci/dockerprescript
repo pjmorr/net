@@ -1,0 +1,58 @@
+# Source environment variables
+cp .env-example .env
+source .env
+
+# export environment variables
+
+export DEBIAN_FRONTEND=noninteractive
+export NOKOGIRI_USE_SYSTEM_LIBRARIES=true
+export AWS_ACCESS_KEY_ID=$UBEROPS_AWS_ACCESS_KEY_ID
+export AWS_SECRET_ACCESS_KEY=$UBEROPS_AWS_SECRET_ACCESS_KEY
+export AWS_DEFAULT_REGION=us-east-1
+export S3_BUCKET=$S3_BUCKET
+export S3_KEY=cogbundles
+export COG_HIPCHAT_ENABLED=$COG_HIPCHAT_ENABLED
+export HIPCHAT_API_HOST=$HIPCHAT_API_HOST
+export HIPCHAT_API_ROOT=$HIPCHAT_API_ROOT
+export HIPCHAT_CHAT_HOST=$HIPCHAT_CHAT_HOST
+export HIPCHAT_MENTION_NAME=$HIPCHAT_MENTION_NAME
+export HIPCHAT_JABBER_PORT=$HIPCHAT_JABBER_PORT
+export HIPCHAT_CONF_HOST=$HIPCHAT_CONF_HOST
+export HIPCHAT_API_TOKEN=$HIPCHAT_API_TOKEN
+export HIPCHAT_JABBER_ID=$HIPCHAT_JABBER_ID
+export HIPCHAT_JABBER_PASSWORD=$HIPCHAT_JABBER_PASSWORD
+export HIPCHAT_NICKNAME=$HIPCHAT_NICKNAME
+export COG_BOOTSTRAP_USERNAME=$COG_BOOTSTRAP_USERNAME
+export COG_BOOTSTRAP_PASSWORD=$COG_BOOTSTRAP_PASSWORD
+export COG_BOOTSTRAP_EMAIL_ADDRESS=$COG_BOOTSTRAP_EMAIL_ADDRESS
+export COG_BOOTSTRAP_FIRST_NAME=$COG_BOOTSTRAP_FIRST_NAME
+export COG_BOOTSTRAP_LAST_NAME=$COG_BOOTSTRAP_LAST_NAME
+export COG_API_URL_HOST=$COG_HOST
+export COG_API_URL_PORT=$COG_API_URL_PORT
+export COG_TRIGGER_URL_HOST=$COG_HOST
+export COG_TRIGGER_URL_PORT=$COG_TRIGGER_URL_PORT
+export COG_SERVICE_URL_HOST=$COG_HOST
+export COG_SERVICE_URL_PORT=$COG_SERVICE_URL_PORT
+export RELAY_ID=$RELAY_ID
+export RELAY_COG_TOKEN=$RELAY_COG_TOKEN
+
+echo "Hello " $CI_BUILD_USER", you are entering the Docker $CI_BUILD_STAGE..."
+echo "Registry Server: " $CI_REGISTRY
+echo "Registry Image: " $CI_REGISTRY_IMAGE
+echo "Build Tag: " $CI_BUILD_TAG
+echo "Build Name: " $CI_BUILD_NAME
+echo "Build Stage: " $CI_BUILD_STAGE
+echo "Project Name: " $CI_PROJECT_NAME
+echo "Project Namespace: " $CI_PROJECT_NAMESPACE
+echo "Project Path: " $CI_PROJECT_PATH
+echo "Project URL: " $CI_PROJECT_URL
+
+apk update
+apk upgrade
+apk -U add alpine-sdk bash ca-certificates ruby ruby-bundler ruby-dev ruby-io-console ruby-irb ruby-rdoc ruby-json
+ruby -v
+gem install bundler
+bundle install --path .bundle
+
+docker info
+docker login -u $CI_BUILD_USER -p $CI_BUILD_TOKEN $CI_REGISTRY

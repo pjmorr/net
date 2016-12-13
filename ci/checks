@@ -1,0 +1,2 @@
+bundle exec rake rubocop
+bundle exec rake bundle:audit

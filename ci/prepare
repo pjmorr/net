@@ -1,0 +1,56 @@
+# Installing dependencies
+apt-get update >/dev/null
+apt-get install -y ruby ruby-dev python-pip dpkg-sig createrepo rpm locales jq sudo python ca-certificates >/dev/null
+
+# Set default locale for the environment
+echo "en_US UTF-8" > /etc/locale.gen
+locale-gen en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US:en
+export LC_ALL=en_US.UTF-8
+
+# Install docker
+wget -O /usr/bin/docker https://get.docker.com/builds/Linux/x86_64/docker-1.10.3
+chmod +x /usr/bin/docker
+
+# Source environment variables
+cp .env-example .env
+source .env
+export DEBIAN_FRONTEND=noninteractive
+export NOKOGIRI_USE_SYSTEM_LIBRARIES=true
+ruby -v
+gem install bundler  --no-ri --no-rdoc
+bundle install -j $(nproc) --path .bundle
+pip install awscli
+mkdir -p ~/.aws
+
+# Build prepare
+#!/bin/bash
+
+source .env
+cat <<EOT >> ~/.aws/credentials
+[default]
+aws_access_key_id = $AWS_ACCESS_KEY_ID
+aws_secret_access_key = $AWS_SECRET_ACCESS_KEY
+output = json
+region = us-east-1
+
+[aimsplatform]
+aws_access_key_id=
+aws_secret_access_key=
+output = json
+region = us-east-1
+
+[sandbox]
+aws_access_key_id = $SANDBOX_AWS_ACCESS_KEY_ID
+aws_secret_access_key = $SANDBOX_AWS_SECRET_ACCESS_KEY
+output = json
+region = us-east-1
+
+[uberops]
+aws_access_key_id = $UBEROPS_AWS_ACCESS_KEY_ID
+aws_secret_access_key = $UBEROPS_AWS_SECRET_ACCESS_KEY
+output = json
+region = us-east-1
+
+EOT

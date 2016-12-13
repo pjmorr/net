@@ -1,0 +1,2 @@
+bundle exec rake image
+bundle exec rake push

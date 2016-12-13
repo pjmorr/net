@@ -1,0 +1,5 @@
+set -eo pipefail
+bundle exec rake clean
+#bundle exec rake clean_fixtures
+bundle exec rake spec_clean
+#bundle exec rake module:clean

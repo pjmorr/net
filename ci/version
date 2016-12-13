@@ -1,0 +1,37 @@
+#!/bin/bash
+
+set -eo pipefail
+# include parse_yaml function
+. ci/parse_yaml
+# read bundle config for version info
+eval $(parse_yaml ./config.yaml "cog_")
+# access yaml content
+echo "Cog Bundle version: "$cog_version
+export COG_VERSION="$cog_version"
+echo "Cog Bundle image: "$cog_docker_image
+export COG_IMAGE=$cog_docker_image
+echo "Cog Bundle image tag: "$cog_docker_tag
+export COG_IMAGE_TAG=$cog_docker_tag
+version=$(cat VERSION || echo dev | sed -e 's/^v//g')
+exact_tag=$(git describe --exact-match 2>/dev/null | sed -e 's/^v//g' || echo "")
+last_tag=$(git describe --tags --abbrev=0 --match 'v[0-9].[0-9].[0-9]'  > /dev/null 2>&1 || echo "")
+commits=$(git log --oneline ${last_tag}..HEAD | wc -l)
+revision=$(git rev-parse --short HEAD || echo unknown)
+
+if [[ $(echo ${exact_tag} | grep -E "^[0-9]+\.[0-9]+\.[0-9]+$") ]]; then
+    echo $exact_tag
+    export VERSION=$exact_tag
+    exit 0
+fi
+
+if [[ $(echo ${exact_tag} | grep -E "^[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+$") ]]; then
+    echo $exact_tag
+    export VERSION=$exact_tag
+    exit 0
+fi
+
+# echo "${version}b${commits}-${revision}"
+export BUILD="b${commits}-${revision}"
+export VERSION="${version}b${commits}"
+echo "Cog Bundle build: "$VERSION
+# echo $BUILD
