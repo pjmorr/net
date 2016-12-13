@@ -8,20 +8,22 @@ __deploy_to_S3() {
 echo "Starting deployment for $1"
 
 case "$1" in
-    "Development")
+    "development")
         __deploy_to_S3 $CI_BUILD_REF_NAME
         ;;
-    "Staging")
+    "staging")
         __deploy_to_S3 $CI_BUILD_REF_NAME
 
         if [[ "$CI_BUILD_REF_NAME" == "master" ]]; then
           aws s3 sync ./ s3://$S3_BUCKET/$S3_KEY/master
         fi
         ;;
-    "Stable Release")
+    "stable")
         __deploy_to_S3 $CI_BUILD_REF_NAME
         __deploy_to_S3 latest
-
+        ;;
+    "production")
+        __deploy_to_S3 $CI_BUILD_REF_NAME
         ;;
     *)
         echo "No deployment"

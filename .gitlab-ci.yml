@@ -54,19 +54,19 @@ checks:
     - ./
   tags:
   - docker
-Development:
+development:
   <<: *build-template
   only:
   - branches
   except:
   - master@cogbundles/net
   - tags@cogbundles/net
-Staging:
+staging:
   <<: *build-template
   only:
   - master@cogbundles/net
   environment: staging
-Stable:
+stable:
   <<: *build-template
   variables:
     RELEASE: "true"
@@ -74,6 +74,11 @@ Stable:
   - tags@cogbundles/net
   - ^*-stable@cogbundles/net
   environment: staging
+production:
+  <<: *build-template
+  only:
+  - production@cogbundles/net
+  environment: production
 pages:
   image: ruby:2.3
   stage: pages
@@ -94,7 +99,6 @@ pages:
   - source ci/prepare
   script:
   - source ci/deploy $CI_BUILD_NAME
-  - "curl -k -X POST -F token=$TOKEN -F ref=$CI_BUILD_REF_NAME https://$GITLAB_SERVER/api/v3/projects/$CONTRL_REPO/trigger/builds"
   artifacts:
     paths:
     - ./
@@ -110,12 +114,12 @@ development:
   - master@cogbundles/net
   environment: development
 
-bleeding:
+staging:
   <<: *release
   only:
   - master@cogbundles/net
   - /\Av[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+\Z/@cogbundles/net
-  environment: bleeding_edge
+  environment: staging
 
 stable:
   <<: *release
