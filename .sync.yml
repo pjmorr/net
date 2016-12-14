@@ -32,7 +32,6 @@
       GITLAB_API_PRIVATE_TOKEN: $GITLAB_API_PRIVATE_TOKEN
     artifacts:
       paths:
-      - node_modules/
       - .bundle/
       expire_in: 7d
   - template: release
@@ -61,7 +60,6 @@
     key: "$CI_PROJECT_PATH"
     paths:
     - .bundle
-    - node_modules
   before_script:
   - source ci/prepare
  
