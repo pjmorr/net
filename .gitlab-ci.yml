@@ -26,7 +26,7 @@ before_script:
 checks:
   only:
   - branches
-  stage: test
+  stage: check
   script:
   - source ci/checks
   artifacts:
@@ -59,24 +59,29 @@ development:
   except:
   - master@cogbundles/net
   - tags@cogbundles/net
-staging:
-  <<: *build-template
-  only:
-  - master@cogbundles/net
-  environment: staging
-stable:
-  <<: *build-template
-  variables:
-    RELEASE: "true"
-  only:
-  - tags@cogbundles/net
-  - ^*-stable@cogbundles/net
-  environment: staging
+  - production@cogbundles/net
 production:
   <<: *build-template
   only:
   - production@cogbundles/net
   environment: production
+staging:
+  <<: *build-template
+  variables:
+    RELEASE: "true"
+  only:
+  - tags@cogbundles/net
+  environment: staging
+cleanup:
+  only:
+  - branches
+  stage: cleanup
+  before_script:
+  - source ci/cleanup
+  script:
+  - source ci/cleanup
+  tags:
+  - aws
 pages:
   image: ruby:2.3
   stage: pages
