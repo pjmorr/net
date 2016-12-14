@@ -15,7 +15,6 @@
   - name: audit tests
   - name: binaries
   - name: development
-  - name: bleeding
   - name: stable
   - name: production
   gitlab_templates:
@@ -31,7 +30,6 @@
       AWS_SECRET_ACCESS_KEY: $UBEROPS_AWS_SECRET_ACCESS_KEY
       GITLAB_API_ENDPOINT: $GITLAB_API_ENDPOINT
       GITLAB_API_PRIVATE_TOKEN: $GITLAB_API_PRIVATE_TOKEN
-      IMAGE: registry.ubermonitoring.com:4567/cogbundles/net
     artifacts:
       paths:
       - node_modules/
@@ -58,6 +56,7 @@
     AWS_DEFAULT_REGION: us-east-1
     S3_BUCKET: $S3_BUCKET
     S3_KEY: $S3_KEY
+    IMAGE: registry.ubermonitoring.com:4567/cogbundles/net
   cache:
     key: "$CI_PROJECT_PATH"
     paths:
