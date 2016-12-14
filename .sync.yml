@@ -2,3 +2,5 @@
 .gitlab-ci.yml:
   namespace: cogbundles
   module: net
+  variables:
+  IMAGE: registry.ubermonitoring.com:4567/cogbundles/net
