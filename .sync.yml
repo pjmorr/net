@@ -1,6 +1,68 @@
 ---
 .gitlab-ci.yml:
+  image: ruby:2.3.1
   namespace: cogbundles
-  module: net
+  module: net  
+  gitlab_stages:
+  - stage: test
+  - stage: build
+  - stage: review
+  - stage: release
+  - stage: pages
+  gitlab_builds:
+  - name: prebuild
+  - name: code tests
+  - name: audit tests
+  - name: binaries
+  - name: development
+  - name: bleeding
+  - name: stable
+  - name: production
+  gitlab_templates:
+  - template: prebuild
+    stage: prebuild
+    name: prebuild
+    before_script:
+      - source ci/prepare
+    variables:
+      GIT_STRATEGY: clone
+      DOCKER_DRIVER: overlay
+      AWS_ACCESS_KEY_ID: $UBEROPS_AWS_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY: $UBEROPS_AWS_SECRET_ACCESS_KEY
+      GITLAB_API_ENDPOINT: $GITLAB_API_ENDPOINT
+      GITLAB_API_PRIVATE_TOKEN: $GITLAB_API_PRIVATE_TOKEN
+      IMAGE: registry.ubermonitoring.com:4567/cogbundles/net
+    artifacts:
+      paths:
+      - node_modules/
+      - .bundle/
+      expire_in: 7d
+  - template: release
+    stage: release
+    name: release
+    before_script:
+      - source ci/prepare
+    script:
+      - source ci/deploy $CI_BUILD_NAME
+    artifacts:
+      paths:
+      - ./
+      expire_in: 7d
+    tags:
+      - release
   variables:
-  IMAGE: registry.ubermonitoring.com:4567/cogbundles/net
+    GIT_STRATEGY: clone
+    TOKEN: $TOKEN
+    AWS_ACCESS_KEY_ID: $UBEROPS_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: $UBEROPS_AWS_SECRET_ACCESS_KEY
+    AWS_DEFAULT_REGION: us-east-1
+    S3_BUCKET: $S3_BUCKET
+    S3_KEY: $S3_KEY
+  cache:
+    key: "$CI_PROJECT_PATH"
+    paths:
+    - .bundle
+    - node_modules
+  before_script:
+  - source ci/prepare
+ 
