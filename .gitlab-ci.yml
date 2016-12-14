@@ -26,7 +26,7 @@ before_script:
 checks:
   only:
   - branches
-  stage: check
+  stage: test
   script:
   - source ci/checks
   artifacts:
