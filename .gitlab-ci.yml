@@ -116,6 +116,8 @@ development:
   - branches@cogbundles/net
   except:
   - master@cogbundles/net
+  - tags@cogbundles/net
+  - production@cogbundles/net
   environment: development
 
 staging:
