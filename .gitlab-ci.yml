@@ -7,6 +7,7 @@ stages:
 - build
 - review
 - release
+- cleanup
 - pages
 variables:
   GIT_STRATEGY: clone
