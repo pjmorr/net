@@ -8,6 +8,7 @@
   - stage: build
   - stage: review
   - stage: release
+  - stage: cleanup
   - stage: pages
   gitlab_builds:
   - name: prebuild
