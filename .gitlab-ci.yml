@@ -96,7 +96,7 @@ pages:
   before_script:
   - source ci/prepare
   script:
-  - source ci/deploy $CI_BUILD_NAME
+  - echo "This will run cogctl commands soon"
   artifacts:
     paths:
     - ./
