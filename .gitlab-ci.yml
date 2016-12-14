@@ -3,7 +3,6 @@
 image: ruby:2.3.1
 
 stages:
-- prebuild
 - test
 - build
 - review
@@ -11,7 +10,6 @@ stages:
 - pages
 variables:
   GIT_STRATEGY: clone
-  CONTROL_REPO: $CONTRL_REPO
   TOKEN: $TOKEN
   AWS_ACCESS_KEY_ID: $UBEROPS_AWS_ACCESS_KEY_ID
   AWS_SECRET_ACCESS_KEY: $UBEROPS_AWS_SECRET_ACCESS_KEY
@@ -23,7 +21,6 @@ cache:
   key: $CI_PROJECT_PATH
   paths:
   - .bundle
-  - node_modules
 before_script:
   - source ci/prepare
 checks:
@@ -52,6 +49,7 @@ checks:
   artifacts:
     paths:
     - ./
+  expire_in: 7d
   tags:
   - docker
 development:

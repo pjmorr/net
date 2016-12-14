@@ -1,6 +1,36 @@
+# Print CI Entrance Banner
+echo "***********"
+echo "Build ID: "$CI_BUILD_ID
+echo "Build Ref: "$CI_BUILD_REF
+echo "Build Ref Name: "$CI_BUILD_REF_NAME
+echo "Build Repo: "$CI_BUILD_REPO
+echo "Build Tag: "$CI_BUILD_TAG
+echo "Build Name: "$CI_BUILD_NAME
+echo "Build Stage: "$CI_BUILD_STAGE
+echo "Build Manual: "$CI_BUILD_MANUAL
+echo "Build Triggered: "$CI_BUILD_TRIGGERED
+echo "Pipeline ID: "$CI_PIPELINE_ID
+echo "Project ID: "$CI_PROJECT_ID
+echo "Project Dir: "$CI_PROJECT_DIR
+echo "Project Name: "$CI_PROJECT_NAME
+echo "Projct Namespace: "$CI_PROJECT_NAMESPACE
+echo "Project Path: "$CI_PROJECT_PATH
+echo "Project URL: "$CI_PROJECT_URL
+echo "Registry: "$CI_REGISTRY
+echo "Registry Image: "$CI_REGISTRY_IMAGE
+echo "Runner ID: "$CI_RUNNER_ID
+echo "Runner Description: "$CI_RUNNER_DESCRIPTION
+echo "Runner Tags: "$CI_RUNNER_TAGS
+echo "CI Server: "$CI_SERVER
+echo "CI Server Name: "$CI_SERVER_NAME
+echo "CI Server Revision: "$CI_SERVER_REVISION
+echo "CI Server Version: "$CI_SERVER_VERSION
+echo "Author ID: "$GITLAB_USER_ID
+echo "Author email: "$GITLAB_USER_EMAIL
+
 # Installing dependencies
-apt-get update >/dev/null
-apt-get install -y ruby ruby-dev python-pip dpkg-sig createrepo rpm locales jq sudo python python-dev ca-certificates >/dev/null
+apt-get update > /dev/null 2>&1
+apt-get install -y ruby ruby-dev python-pip dpkg-sig createrepo rpm locales jq sudo python python-dev ca-certificates > /dev/null 2>&1
 
 # Set default locale for the environment
 echo "en_US UTF-8" > /etc/locale.gen
@@ -10,7 +40,7 @@ export LANGUAGE=en_US:en
 export LC_ALL=en_US.UTF-8
 
 # Install docker
-wget -O /usr/bin/docker https://get.docker.com/builds/Linux/x86_64/docker-1.10.3
+wget -O /usr/bin/docker https://get.docker.com/builds/Linux/x86_64/docker-1.10.3 > /dev/null 2>&1
 chmod +x /usr/bin/docker
 
 # Source environment variables
@@ -19,9 +49,9 @@ source .env
 export DEBIAN_FRONTEND=noninteractive
 export NOKOGIRI_USE_SYSTEM_LIBRARIES=true
 ruby -v
-gem install bundler  --no-ri --no-rdoc
-bundle install -j $(nproc) --path .bundle
-pip install awscli
+gem install bundler  --no-ri --no-rdoc > /dev/null 2>&1
+bundle install -j $(nproc) --path .bundle > /dev/null 2>&1
+pip install awscli > /dev/null 2>&1
 mkdir -p ~/.aws
 
 # Build prepare

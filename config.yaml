@@ -4,10 +4,10 @@ name: net
 description: "Simple network utilities"
 author: "Phil <phil@uberops.com>"
 homepage: "https://gitlab.ubermonitoring.com/cogbundles/net"
-version: "0.3.1"
+version: "0.3.2"
 docker:
   image: "registry.ubermonitoring.com:4567/cogbundles/net"
-  tag: "0.3.1"
+  tag: "0.3.2"
 commands:
   dig:
     executable: "/bundle/dig.sh"
